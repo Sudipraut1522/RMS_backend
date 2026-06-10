@@ -13,6 +13,10 @@ const startServer = async () => {
     await AppDataSource.initialize();
     logger.info('Database connection established and tables synchronized.');
 
+    // Seed the database with default records if empty
+    const { seedDatabase } = await import('./config/seeder.js');
+    await seedDatabase();
+
     // 2. Start listening
     const server = app.listen(PORT, () => {
       logger.info(`Server is running in ${config.env} mode on port ${PORT}`);
